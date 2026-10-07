@@ -1,0 +1,38 @@
+{
+  "name": "mavlo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Free online tools that run in your browser: calculators, converters, image, PDF, text and generators.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --tsconfig tests/tsconfig.json --test tests/*.test.ts tests/*.test.tsx"
+  },
+  "dependencies": {
+    "heic2any": "^0.0.4",
+    "next": "^15.5.0",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.6.0",
+    "tsx": "^4.19.0"
+  }
+}
