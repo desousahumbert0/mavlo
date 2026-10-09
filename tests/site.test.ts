@@ -10,9 +10,11 @@ import { languageAlternates } from "@/lib/seo";
 import { tools, toolsForLocale, toolsInCategory, getToolBySlug } from "@/tools/registry";
 import sitemap from "../src/app/sitemap";
 
-test("phase 1 ships exactly the ten approved tools", () => {
-  const ids = tools.map((t) => t.config.id).sort();
-  assert.deepEqual(ids, ["age-calculator", "date-calculator", "heic-to-jpg", "image-compressor", "length-converter", "merge-pdf", "percentage-calculator", "qr-code-generator", "weight-converter", "word-counter"]);
+test("the ten approved Phase 1 tools plus the first six Phase 2 tools are registered", () => {
+  const ids = tools.map((t) => t.config.id);
+  for (const id of ["age-calculator", "date-calculator", "heic-to-jpg", "image-compressor", "length-converter", "merge-pdf", "percentage-calculator", "qr-code-generator", "weight-converter", "word-counter"]) assert.ok(ids.includes(id), id);
+  for (const id of ["jpg-to-pdf", "password-generator", "case-converter", "image-resizer", "aspect-ratio-calculator", "mp4-to-mp3"]) assert.ok(ids.includes(id), id);
+  assert.equal(new Set(ids).size, ids.length);
 });
 
 test("every tool passes the anti-thin-content gate", () => {

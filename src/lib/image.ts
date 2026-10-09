@@ -40,3 +40,43 @@ export async function reencodeImage(file: Blob, opts: { mime: OutputMime; qualit
   }
   return { blob, width, height, resized };
 }
+
+export const MAX_CANVAS_SIDE = 16384;
+export const MAX_CANVAS_PIXELS = 100_000_000;
+
+export async function readImageSize(file: Blob): Promise<{ width: number; height: number }> {
+  const bitmap = await toBitmap(file);
+  const size = { width: bitmap.width, height: bitmap.height };
+  bitmap.close();
+  return size;
+}
+
+/** Scales an image to an exact width and height. */
+export async function resizeImage(file: Blob, opts: { width: number; height: number; mime: OutputMime; quality: number }): Promise<Blob> {
+  const { width, height } = opts;
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1) throw new Error("Width and height must be whole numbers of at least 1 pixel.");
+  if (width > MAX_CANVAS_SIDE || height > MAX_CANVAS_SIDE || width * height > MAX_CANVAS_PIXELS) {
+    throw new Error("That size is too large for a browser to handle. Try a smaller width or height.");
+  }
+  const bitmap = await toBitmap(file);
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Your browser could not create a drawing surface for this image.");
+  if (opts.mime === "image/jpeg") {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, width, height);
+  }
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, opts.mime, opts.quality));
+  canvas.width = 0;
+  canvas.height = 0;
+  if (!blob || blob.type !== opts.mime) {
+    throw new Error(`Your browser cannot save images as ${extensionFor(opts.mime).toUpperCase()}. Try another output format.`);
+  }
+  return blob;
+}

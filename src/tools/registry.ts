@@ -19,6 +19,12 @@ import { tool as imageCompressor } from "./image-compressor";
 import { tool as heicToJpg } from "./heic-to-jpg";
 import { tool as qrCodeGenerator } from "./qr-code-generator";
 import { tool as mergePdf } from "./merge-pdf";
+import { tool as jpgToPdf } from "./jpg-to-pdf";
+import { tool as passwordGenerator } from "./password-generator";
+import { tool as caseConverter } from "./case-converter";
+import { tool as imageResizer } from "./image-resizer";
+import { tool as aspectRatioCalculator } from "./aspect-ratio-calculator";
+import { tool as mp4ToMp3 } from "./mp4-to-mp3";
 
 export const tools: ToolModule[] = [
   ageCalculator,
@@ -31,6 +37,12 @@ export const tools: ToolModule[] = [
   heicToJpg,
   qrCodeGenerator,
   mergePdf,
+  jpgToPdf,
+  passwordGenerator,
+  caseConverter,
+  imageResizer,
+  aspectRatioCalculator,
+  mp4ToMp3,
 ];
 
 export function getToolById(id: string): ToolModule | undefined {
