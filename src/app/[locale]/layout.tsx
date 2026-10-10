@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "../globals.css";
 import Analytics from "@/components/Analytics";
 import SiteFooter from "@/components/SiteFooter";
@@ -48,6 +49,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         </main>
         <SiteFooter locale={locale} dict={dict} />
         <Analytics />
+        <GoogleAnalytics gaId="G-KXTN8KD49J" />
       </body>
     </html>
   );
